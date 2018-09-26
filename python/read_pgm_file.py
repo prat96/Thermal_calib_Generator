@@ -22,7 +22,7 @@ def read_pgm(filename):
     return numpy.transpose(data),width,height,depth
 
 
-def get_data(filename, columns_to_read=[1,321]):
+def get_data(filename, columns_to_read=[0,320]):
     '''
     columns_to_read; usually 3,645 when you don't want temp columns
     '''
