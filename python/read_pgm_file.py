@@ -4,7 +4,7 @@ import numpy
 
 def read_pgm(filename):
     if not os.path.exists(filename):
-        print ('file %s doesnot exist...' % filename)
+        print ('file %s does not exist...' % filename)
         exit(-1)
 
     file = open(filename, 'r')
@@ -22,7 +22,7 @@ def read_pgm(filename):
     return numpy.transpose(data),width,height,depth
 
 
-def get_data(filename, columns_to_read=[0,320]):
+def get_data(filename, columns_to_read=[3,643]):
     '''
     columns_to_read; usually 3,645 when you don't want temp columns
     '''
