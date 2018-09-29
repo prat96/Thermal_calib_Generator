@@ -16,9 +16,7 @@ def lowtemp_avg():
             # print filename
             image = np.array(get_data('../datasets/gain/low_temp/' + filename), dtype=np.float)
             # np.memmap(filename, dtype='uint16', mode='r').reshape(480, 648)
-            print(image)
             avgimg_low = image + avgimg_low
-            #avgimg_low = avgimg_low / 2
             i = i + 1
 
     avgimg_low = avgimg_low / 60.0
@@ -39,9 +37,7 @@ def hightemp_avg():
             filename = d[2][i]
             # print(filename)
             image = np.array(get_data('../datasets/gain/high_temp/' + filename), dtype=np.float)
-            # print image
             avgimg_high = image + avgimg_high
-            #avgimg_high = avgimg_high / 2
             i = i + 1
 
     avgimg_high = avgimg_high / 60.0
@@ -70,10 +66,7 @@ def compute_gain():
     np.clip(gain_mat, 0, 2.0)
     print('gain_mat -->')
     print(gain_mat)
-    t_gainmat = np.transpose(gain_mat)
     return gain_mat
 
 if __name__ == '__main__':
-    #lowtemp_avg()
-    #hightemp_avg()
     compute_gain()

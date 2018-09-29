@@ -4,23 +4,6 @@ import numpy as np
 from gain import compute_gain
 from read_pgm_file import get_data
 
-"""
-
-function[OffsetMat] = ComputeOffset(GainMat, AvgImgMat, OffsetPath, T_amb)
-GI = GainMat. * AvgImgMat; % GI = > Gain Corrected Image
-medianGI = median(GI(:));
-OffsetMat = round(100000 * (GI - medianGI)). / 100000; % This is Offset Coefficient for the image to which nuc has to apply
-
-OffsetName = sprintf('Offset_Mats/Offset_%d.mat', T_amb);
-OffsetFile = strcat(OffsetPath, OffsetName);
-dlmwrite(OffsetFile, OffsetMat, ' ');
-end
-
-"""
-
-
-# Gainmat = compute_gain()
-
 def compute_offsetdirectory():
     global offset_matrix
     directory = '../datasets/offset/'
@@ -43,10 +26,11 @@ def compute_offsetdirectory():
     return offsetdirectories
 
 
-def compute_offsetmats(x):
+def compute_avg_offsetmats(x):
     i = 0
     k = 0
     avgimg_offset = 0
+    avg_offset_Mats = []
     while (k < len(x)):
         for e in os.walk(x[k]):
             #print('e = ', e[2])
@@ -60,20 +44,51 @@ def compute_offsetmats(x):
                 avgimg_offset = image + avgimg_offset
                 i = i + 1
         averaged_offset = avgimg_offset / 60
-        print(averaged_offset)
+        #print(averaged_offset)
+        avg_offset_Mats.append(averaged_offset)
         i = 0
         k = k + 1
         avgimg_offset = 0
-
-
+    return avg_offset_Mats
 
 """
-avgimg_low = avgimg_low / 60.0
-print(avgimg_low.shape)
-avgimg_lowval = np.average(avgimg_low)
-print(avgimg_lowval)
+
+function[OffsetMat] = ComputeOffset(GainMat, AvgImgMat, OffsetPath, T_amb)
+GI = GainMat. * AvgImgMat; % GI = > Gain Corrected Image
+medianGI = median(GI(:));
+OffsetMat = round(100000 * (GI - medianGI)). / 100000; % This is Offset Coefficient for the image to which nuc has to apply
+
+OffsetName = sprintf('Offset_Mats/Offset_%d.mat', T_amb);
+OffsetFile = strcat(OffsetPath, OffsetName);
+dlmwrite(OffsetFile, OffsetMat, ' ');
+end
+
 """
+
+def compute_offsetmats(x):
+    print('recieved offset mats -->', x[1])
+    Offset_Mats = []
+    Gainmat = np.array(compute_gain())
+
+    k = 0
+    while(k < len(x)):
+        print('offsetmat number ',k)
+        GI = np.multiply(np.nan_to_num(Gainmat), np.nan_to_num(x[k]))
+        np.abs(GI)
+        medianGI = np.median(GI)
+        print('GI medain = ', medianGI)
+        Offsetmat = GI - medianGI
+        np.abs(Offsetmat)
+        #print(Offsetmat)
+        k = k + 1
+        Offset_Mats.append(Offsetmat)
+
+    print(Offset_Mats)
+    print(len(Offset_Mats))
+    return Offset_Mats
 
 if __name__ == '__main__':
     offset_directories = compute_offsetdirectory()
-    compute_offsetmats(offset_directories)
+    avg_offsetmats = compute_avg_offsetmats(offset_directories)
+
+    compute_offsetmats(avg_offsetmats)
