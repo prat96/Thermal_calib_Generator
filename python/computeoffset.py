@@ -4,6 +4,7 @@ import numpy as np
 from gain import compute_gain
 from read_pgm_file import get_data
 
+
 def compute_offsetdirectory():
     global offset_matrix
     directory = '../datasets/offset/'
@@ -33,37 +34,24 @@ def compute_avg_offsetmats(x):
     avg_offset_Mats = []
     while (k < len(x)):
         for e in os.walk(x[k]):
-            #print('e = ', e[2])
+            # print('e = ', e[2])
             print('directory number = ', x[k])
             while i < 60:
                 offsetfile = e[2][i]
-                #print('offsetfile = ', offsetfile)
+                # print('offsetfile = ', offsetfile)
                 image = np.array(get_data(x[k] + offsetfile), dtype=np.float)
                 # np.memmap(filename, dtype='uint16', mode='r').reshape(480, 648)
                 # print(image)
                 avgimg_offset = image + avgimg_offset
                 i = i + 1
         averaged_offset = avgimg_offset / 60
-        #print(averaged_offset)
+        # print(averaged_offset)
         avg_offset_Mats.append(averaged_offset)
         i = 0
         k = k + 1
         avgimg_offset = 0
     return avg_offset_Mats
 
-"""
-
-function[OffsetMat] = ComputeOffset(GainMat, AvgImgMat, OffsetPath, T_amb)
-GI = GainMat. * AvgImgMat; % GI = > Gain Corrected Image
-medianGI = median(GI(:));
-OffsetMat = round(100000 * (GI - medianGI)). / 100000; % This is Offset Coefficient for the image to which nuc has to apply
-
-OffsetName = sprintf('Offset_Mats/Offset_%d.mat', T_amb);
-OffsetFile = strcat(OffsetPath, OffsetName);
-dlmwrite(OffsetFile, OffsetMat, ' ');
-end
-
-"""
 
 def compute_offsetmats(x):
     print('recieved offset mats -->', x[1])
@@ -71,21 +59,22 @@ def compute_offsetmats(x):
     Gainmat = np.array(compute_gain())
 
     k = 0
-    while(k < len(x)):
-        print('offsetmat number ',k)
+    while (k < len(x)):
+        print('offsetmat number ', k)
         GI = np.multiply(np.nan_to_num(Gainmat), np.nan_to_num(x[k]))
         np.abs(GI)
         medianGI = np.median(GI)
         print('GI medain = ', medianGI)
-        Offsetmat = GI - medianGI
+        Offsetmat = GI - medianGI  # This is Offset Coefficient for the image to which nuc has to apply
         np.abs(Offsetmat)
-        #print(Offsetmat)
+        # print(Offsetmat)
         k = k + 1
         Offset_Mats.append(Offsetmat)
 
     print(Offset_Mats)
     print(len(Offset_Mats))
     return Offset_Mats
+
 
 if __name__ == '__main__':
     offset_directories = compute_offsetdirectory()

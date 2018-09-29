@@ -3,6 +3,7 @@ import numpy as np
 
 from read_pgm_file import get_data
 
+
 def lowtemp_avg():
     global avgimg_low
     directory = '../datasets/gain/low_temp/'
@@ -67,6 +68,7 @@ def compute_gain():
     print('gain_mat -->')
     print(gain_mat)
     return gain_mat
+
 
 if __name__ == '__main__':
     compute_gain()
