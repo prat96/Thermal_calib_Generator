@@ -8,9 +8,8 @@ from read_pgm_file import get_data
 def compute_offsetdirectory():
     global offset_matrix
     directory = '../datasets/offset/'
-    i = 0
-    avgimg_offset = 0
     offsetdirectories = []
+    i = 0
 
     for d in os.walk(directory):
         # print(d)
@@ -66,7 +65,7 @@ def compute_offsetmats(x):
         medianGI = np.median(GI)
         print('GI medain = ', medianGI)
         Offsetmat = GI - medianGI  # This is Offset Coefficient for the image to which nuc has to apply
-        np.abs(Offsetmat)
+        Offsetmat = np.absolute(Offsetmat)
         # print(Offsetmat)
         k = k + 1
         Offset_Mats.append(Offsetmat)

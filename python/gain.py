@@ -55,16 +55,12 @@ def compute_gain():
     print('median of low =', mlow)
     mhigh = np.median(avgimg_high)
     print('median of high =', mhigh)
-
-    # avgdiff = (avgimg_high-avgimg_low)
-    # print('avgdiff')
-    # print(avgdiff)
-
     I_ones = np.ones((640, 480))
 
     gain_mat = np.divide(((mlow - mhigh) * I_ones), (avgimg_low - avgimg_high))
-    np.abs(gain_mat)
-    np.clip(gain_mat, 0, 2.0)
+    gain_mat = np.absolute(gain_mat)
+    gain_mat = np.nan_to_num(gain_mat)
+    gain_mat = np.clip(gain_mat, 0, 2.0)
     print('gain_mat -->')
     print(gain_mat)
     return gain_mat

@@ -9,7 +9,7 @@ function [ bolometer_coefficients ] = ComputeBolometerPolynomial( filepath, T_lo
     filename = strcat( filepath, filetype );
       
     Img_Mat = load(filename);
-  
+
     bolometer_prefix_mat = Img_Mat( : , 1 : prefix_cols );
     bolometer_suffix_mat = Img_Mat( : , end - suffix_cols + 1 : end );
 
