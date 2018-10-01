@@ -36,7 +36,7 @@ def get_bolometer_mats():
         i = 0
         k = k + 1
         avgimg_bolo = 0
-    #print(avg_bolo_Mats[0])
+    # print(avg_bolo_Mats[0])
     print(mean_bolos)
     # print('mean bolo 1 = ', np.mean(avg_bolo_Mats[0]))
     return mean_bolos

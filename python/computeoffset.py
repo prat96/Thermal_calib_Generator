@@ -65,7 +65,6 @@ def compute_offsetmats(x):
         medianGI = np.median(GI)
         print('GI medain = ', medianGI)
         Offsetmat = GI - medianGI  # This is Offset Coefficient for the image to which nuc has to apply
-        Offsetmat = np.absolute(Offsetmat)
         # print(Offsetmat)
         k = k + 1
         Offset_Mats.append(Offsetmat)
