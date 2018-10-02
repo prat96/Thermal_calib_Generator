@@ -19,8 +19,8 @@ def compute_offset_polynomial(x):
         print('x[k] =', x[k])
         print(x[k].dtype)
         x[k] = np.array(x[k])
-        print(x[k].shape)
-        polynomial_coefficients = np.polyfit((x.flat), y, 2)
+        x = np.asarray(x)
+        polynomial_coefficients = np.polyfit(y, x, 2)
         print(polynomial_coefficients)
 
         poly_coeffs.append(polynomial_coefficients)

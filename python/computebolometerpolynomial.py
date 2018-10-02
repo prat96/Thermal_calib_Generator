@@ -46,13 +46,14 @@ def compute_bolo_coefficients(x):
     t_lo = 10
     t_high = 51
     t_step = 4
+    filename = ('./results/bolo_coefficients')
 
     y = np.arange(t_lo, t_high, t_step)
     print(y)
 
     bolo_coefficients = np.polyfit(x, y, 1)
     print(bolo_coefficients)
-
+    np.savetxt(filename, bolo_coefficients, fmt="%2.7f")
 
 if __name__ == '__main__':
     mean_bolos = get_bolometer_mats()

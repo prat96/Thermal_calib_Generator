@@ -50,7 +50,8 @@ def hightemp_avg():
 def compute_gain():
     lowtemp_avg()
     hightemp_avg()
-
+    g_low = 0
+    g_high = 60
     mlow = np.median(avgimg_low)
     print('median of low =', mlow)
     mhigh = np.median(avgimg_high)
@@ -61,9 +62,15 @@ def compute_gain():
     gain_mat = np.absolute(gain_mat)
     gain_mat = np.nan_to_num(gain_mat)
     gain_mat = np.clip(gain_mat, 0, 2.0)
+
+    gainfile = ('./results/Gain_mat_' + str(g_low) + '_' +  str(g_high))
+    np.savetxt(gainfile, gain_mat, fmt="%2.7f")
+    print(gainfile)
     print('gain_mat -->')
     print(gain_mat)
     return gain_mat
+
+
 
 
 if __name__ == '__main__':

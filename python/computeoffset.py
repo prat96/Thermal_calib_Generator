@@ -74,8 +74,25 @@ def compute_offsetmats(x):
     return Offset_Mats
 
 
+def save_offsetmats(x):
+    t_lo = 10
+    t_high = 51
+    t_step = 4
+    y = np.arange(t_lo, t_high, t_step)
+    filename = []
+    k = 0
+    for i in range(t_lo, t_high, t_step):
+        filename.append('./results/Offset_Mat_' + str(i))
+        np.savetxt(filename[k], x[k], fmt="%2.7f")
+        print(filename[k], '=', x[k])
+        k = k + 1
+    print(filename)
+
+
+
+
 if __name__ == '__main__':
     offset_directories = compute_offsetdirectory()
     avg_offsetmats = compute_avg_offsetmats(offset_directories)
-
-    compute_offsetmats(avg_offsetmats)
+    offset_Mats = compute_offsetmats(avg_offsetmats)
+    save_offsetmats(offset_Mats)
