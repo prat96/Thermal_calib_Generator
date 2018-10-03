@@ -6,7 +6,6 @@ from read_pgm_file import get_data
 
 
 def compute_offsetdirectory():
-    global offset_matrix
     directory = '../datasets/offset/'
     offsetdirectories = []
     i = 0
@@ -52,47 +51,37 @@ def compute_avg_offsetmats(x):
     return avg_offset_Mats
 
 
-def compute_offsetmats(x):
-    print('recieved offset mats -->', x[1])
+def compute_offsetmats(x, g_low, g_high):
     Offset_Mats = []
-    Gainmat = np.array(compute_gain())
+    gainfile = ('./results/Gain_mat_' + str(g_low) + '_' + str(g_high))
+    Gainmat = np.array(np.loadtxt(gainfile))
 
     k = 0
     while (k < len(x)):
-        print('offsetmat number ', k)
+        # print('offsetmat number ', k)
         GI = np.multiply(np.nan_to_num(Gainmat), np.nan_to_num(x[k]))
-        np.abs(GI)
         medianGI = np.median(GI)
-        print('GI medain = ', medianGI)
+        # print('GI medain = ', medianGI)
         Offsetmat = GI - medianGI  # This is Offset Coefficient for the image to which nuc has to apply
         # print(Offsetmat)
         k = k + 1
         Offset_Mats.append(Offsetmat)
 
-    print(Offset_Mats)
-    print(len(Offset_Mats))
     return Offset_Mats
 
 
-def save_offsetmats(x):
-    t_lo = 10
-    t_high = 51
-    t_step = 4
-    y = np.arange(t_lo, t_high, t_step)
+def save_offsetmats(x, t_low, t_high, t_step):
     filename = []
     k = 0
-    for i in range(t_lo, t_high, t_step):
+    for i in range(t_low, t_high, t_step):
         filename.append('./results/Offset_Mat_' + str(i))
         np.savetxt(filename[k], x[k], fmt="%2.7f")
-        print(filename[k], '=', x[k])
         k = k + 1
-    print(filename)
+    print('Saved Offset_Mats')
 
 
-
-
-if __name__ == '__main__':
+def main(g_low, g_high, t_low, t_high, t_step):
     offset_directories = compute_offsetdirectory()
     avg_offsetmats = compute_avg_offsetmats(offset_directories)
-    offset_Mats = compute_offsetmats(avg_offsetmats)
-    save_offsetmats(offset_Mats)
+    offset_Mats = compute_offsetmats(avg_offsetmats, g_low, g_high)
+    save_offsetmats(offset_Mats, t_low, t_high, t_step)
