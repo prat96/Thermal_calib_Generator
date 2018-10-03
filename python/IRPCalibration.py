@@ -60,7 +60,7 @@ def print_knight():
 
 if __name__ == '__main__':
     height, width, g_low, g_high, t_low, t_high, t_step = user_params()
-    gain.main(height, width, g_low, g_high)
-    computeoffset.main(g_low, g_high, t_low, t_high, t_step)
+    #gain.main(height, width, g_low, g_high)
+ #   computeoffset.main(g_low, g_high, t_low, t_high, t_step)
     computebolometerpolynomial.main(t_low, t_high, t_step)
-    computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)
+   # computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)
