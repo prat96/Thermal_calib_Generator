@@ -1,8 +1,8 @@
 # Thermal_calib_Generator
 
-###Generates the Calibrated result matrices for an any LWIR uncooled microbolometer.
+### Generates the Calibrated result matrices for an any LWIR uncooled microbolometer.
 
-####Tools required
+#### Tools required
 0) Python3
 1) Numpy
 2) Inquirer
