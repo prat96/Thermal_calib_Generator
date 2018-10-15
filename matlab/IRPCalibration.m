@@ -3,20 +3,20 @@ clear all;
 %%%%%%%%%% User Controlled Parameters %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-GAIN_CALIB = 0;
-OFFSET_CALIB = 1;
+GAIN_CALIB = 1;
+OFFSET_CALIB = 0;
 BOLOMETER_CALIB = 0;
 POLYFIT_OFFSET_CALIB = 0;
 
-HEIGHT = 480;
-WIDTH = 650;
-BOLOMETER_PREFIX = 3;
-BOLOMETER_SUFFIX = 7;
+HEIGHT = 240;
+WIDTH = 323;
+BOLOMETER_PREFIX = 0;
+BOLOMETER_SUFFIX = 3;
 
 % Gain Calibration
 Gain_Amb_T = 25;
-Gain_Ref_T1 = 15;
-Gain_Ref_T2 = 45;
+Gain_Ref_T1 = 5;
+Gain_Ref_T2 = 60;
 
 % Offset Bolometer and Polyfit Calibration
 Offset_Amb_T = 20;
@@ -26,18 +26,18 @@ Offset_Calib_T_hi = 40;
 Offset_Calib_Tstep = 5;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-GAINPATH_REFIMG_1 = 'Calibration_Data/Gain_Data/';
-GAINPATH_REFIMG_2 = 'Calibration_Data/Gain_Data/';
-GAINPATH_RAWIMG_1 = 'Calibration_Data/Gain_Data/Ref1/';
-GAINPATH_RAWIMG_2 = 'Calibration_Data/Gain_Data/Ref2/';
-GAIN_PATH = 'Calibration_Data/Gain_Data/';
+GAINPATH_REFIMG_1 = '../datasets/gain/matlab_tests/';
+GAINPATH_REFIMG_2 = '../datasets/gain/matlab_tests/';
+GAINPATH_RAWIMG_1 = '../datasets/gain/low_temp/';
+GAINPATH_RAWIMG_2 = '../datasets/gain/high_temp/';
+GAIN_PATH = '../datasets/gain/matlab_tests/';
 
 COMPUTE_AVG_IMG = 1;
 RAW_IMG_PATH = 'Calibration_Data/Offset_Data/RawImgs/';
 AVGIMG_PATH = 'Calibration_Data/Offset_Data/AvgImgs/';
 start_index = 0;
 end_index = 59;
-step_size = 5;
+step_size = 1;
 
 PRUNE_IMAGE = 1;
 

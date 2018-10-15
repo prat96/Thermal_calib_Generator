@@ -19,20 +19,20 @@ def read_pgm(filename):
     
     data = [float(x) for x in file.readline().split()]
     data = numpy.array(data).reshape(height, width)
-    return numpy.transpose(data),width,height,depth
+    return data,width,height,depth
 
 
-def get_data(filename, columns_to_read=[3,643]):
+def get_data(filename, columns_to_read):
     '''
     columns_to_read; usually 3,645 when you don't want temp columns
     '''
     data,_,_,_ = read_pgm(filename)
     # return data from column 3 till column 644
-    return data[columns_to_read[0]:columns_to_read[1], :]
+    return data[:, columns_to_read[0]:columns_to_read[1]]
 
 
 # TODO add temp columns as variables
 def get_temperature_columns(filename):
     data,_,_,_ = read_pgm(filename)
     # return first 3 and last 3 columns
-    return data[:3, :], data[-3:, :]
+    return data[:, -3:]

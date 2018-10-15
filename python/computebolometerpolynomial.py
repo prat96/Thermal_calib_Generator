@@ -41,3 +41,4 @@ def compute_bolo_coefficients(x, t_low, t_high, t_step):
 def main(t_low, t_high, t_step):
     mean_bolos = get_bolometer_mats()
     compute_bolo_coefficients(mean_bolos, t_low, t_high, t_step)
+

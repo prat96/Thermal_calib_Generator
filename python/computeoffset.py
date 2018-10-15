@@ -9,14 +9,14 @@ def compute_offsetdirectory():
     offsetdirectories = []
 
     directories = os.listdir(directory)
-    directories.sort()
+    directories.sort(key=int)
     for index, values in enumerate(directories):
         offsetdirectories.append(directory + values + '/')
 
     return offsetdirectories
 
 
-def compute_avg_offsetmats(x):
+def compute_avg_offsetmats(x, y):
     i = 0
     avgimg_offset = 0
     avg_offset_Mats = []
@@ -25,7 +25,7 @@ def compute_avg_offsetmats(x):
             print('directory number = ', x[k])
             while i < 60:
                 offsetfile = e[2][i]
-                image = np.array(get_data(x[k] + offsetfile), dtype=np.float)
+                image = get_data(x[k] + offsetfile, y)
                 # np.memmap(filename, dtype='uint16', mode='r').reshape(480, 648)
                 # print(image)
                 avgimg_offset = image + avgimg_offset
@@ -57,19 +57,13 @@ def save_offsetmats(x, t_low, t_high, t_step):
     k = 0
     for i in range(t_low, t_high, t_step):
         filename.append('./results/Offset_Mat_' + str(i))
-        np.savetxt(filename[k], x[k], fmt="%2.7f")
+        np.savetxt(filename[k], x[k], fmt="%2.6f")
         k = k + 1
     print('Saved Offset_Mats\n')
 
 
-def main(g_low, g_high, t_low, t_high, t_step):
+def main(g_low, g_high, t_low, t_high, t_step, columns):
     offset_directories = compute_offsetdirectory()
-    avg_offsetmats = compute_avg_offsetmats(offset_directories)
+    avg_offsetmats = compute_avg_offsetmats(offset_directories, columns)
     offset_Mats = compute_offsetmats(avg_offsetmats, g_low, g_high)
     save_offsetmats(offset_Mats, t_low, t_high, t_step)
-
-
-if __name__ == '__main__':
-    offset_directories = compute_offsetdirectory()
-    avg_offsetmats = compute_avg_offsetmats(offset_directories)
-    offset_Mats = compute_offsetmats(avg_offsetmats, 0, 60)

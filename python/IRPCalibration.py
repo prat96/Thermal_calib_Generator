@@ -31,11 +31,14 @@ def user_params():
     device_id = answers['DEVICE_ID']
     sensor = answers['RESOLUTION']
     if sensor == 'VGA(Gen2)':
-        height = 640
-        width = 480
+        height = 480
+        width = 640
+        columns_to_read=[0,640]
     else:
-        height = 320
-        width = 240
+        height = 240
+        width = 320
+        columns_to_read=[0,320]
+
     prefix = answers['PREFIX']
     suffix = answers['SUFFIX']
     g_low = answers['GAIN_LOW']
@@ -48,7 +51,7 @@ def user_params():
     if input("\n" "Please check entered parameters. Are you sure you want to continue? (y/n)") != "y":
         exit()
 
-    return height, width, g_low, g_high, t_low, t_high, t_step
+    return height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read
 
 
 def print_knight():
@@ -59,8 +62,8 @@ def print_knight():
 
 
 if __name__ == '__main__':
-    height, width, g_low, g_high, t_low, t_high, t_step = user_params()
-    #gain.main(height, width, g_low, g_high)
- #   computeoffset.main(g_low, g_high, t_low, t_high, t_step)
+    height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read = user_params()
+    gain.main(height, width, g_low, g_high, columns_to_read)
+    computeoffset.main(g_low, g_high, t_low, t_high, t_step, columns_to_read)
     computebolometerpolynomial.main(t_low, t_high, t_step)
-   # computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)
+    computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)
