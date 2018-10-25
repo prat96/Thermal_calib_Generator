@@ -33,11 +33,11 @@ def user_params():
     if sensor == 'VGA(Gen2)':
         height = 480
         width = 640
-        columns_to_read=[0,640]
+        columns_to_read=[480,648]
     else:
         height = 240
         width = 320
-        columns_to_read=[0,320]
+        columns_to_read=[240,324]
 
     prefix = answers['PREFIX']
     suffix = answers['SUFFIX']
@@ -65,5 +65,5 @@ if __name__ == '__main__':
     height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read = user_params()
     gain.main(height, width, g_low, g_high, columns_to_read)
     computeoffset.main(g_low, g_high, t_low, t_high, t_step, columns_to_read)
-    computebolometerpolynomial.main(t_low, t_high, t_step)
+    computebolometerpolynomial.main(t_low, t_high, t_step, columns_to_read)
     computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)

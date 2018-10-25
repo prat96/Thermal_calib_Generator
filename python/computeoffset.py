@@ -1,8 +1,6 @@
 import os
 import numpy as np
 
-from read_pgm_file import get_data
-
 
 def compute_offsetdirectory():
     directory = '../datasets/offset/'
@@ -25,13 +23,12 @@ def compute_avg_offsetmats(x, y):
             print('directory number = ', x[k])
             while i < 60:
                 offsetfile = e[2][i]
-                image = get_data(x[k] + offsetfile, y)
-                # np.memmap(filename, dtype='uint16', mode='r').reshape(480, 648)
-                # print(image)
+                image = np.memmap(x[k] + offsetfile, dtype='uint16', mode='r').reshape(y)
+                image = image[:, 1:-3]
                 avgimg_offset = image + avgimg_offset
+                avgimg_offset = avgimg_offset.astype('uint32')
                 i = i + 1
         averaged_offset = avgimg_offset / 60
-        # print(averaged_offset)
         avg_offset_Mats.append(averaged_offset)
         i = 0
         avgimg_offset = 0
@@ -63,6 +60,7 @@ def save_offsetmats(x, t_low, t_high, t_step):
 
 
 def main(g_low, g_high, t_low, t_high, t_step, columns):
+    print("Computing offset Mats\n")
     offset_directories = compute_offsetdirectory()
     avg_offsetmats = compute_avg_offsetmats(offset_directories, columns)
     offset_Mats = compute_offsetmats(avg_offsetmats, g_low, g_high)

@@ -1,31 +1,33 @@
 import os
 import numpy as np
 
-from read_pgm_file import get_data
-
 
 def lowtemp_avg(x):
     avgimg_low = 0
-    files = os.listdir('../datasets/gain/low_temp/')
-    for index, value in enumerate(files):
-        image = get_data('../datasets/gain/low_temp/' + files[index], x)
-        # np.memmap(filename, dtype='uint16', mode='r').reshape(480, 648)
-        avgimg_low = image + avgimg_low
+    files = sorted(os.listdir('../datasets/gain/low_temp/'))
 
-    avgimg_low = avgimg_low / 60.0
-    print(avgimg_low.shape)
+    for index, value in enumerate(files):
+        # image = get_data('../datasets/gain/pgm/' + files[index], x)
+        image = np.memmap('../datasets/gain/low_temp/' + value, dtype='uint16', mode='r').reshape(x)
+        image = image[:, 1:-3]
+        avgimg_low = image + avgimg_low
+        avgimg_low = avgimg_low.astype('uint32')
+
+    avgimg_low = avgimg_low / 60
     return avgimg_low
 
 
 def hightemp_avg(x):
     avgimg_high = 0
 
-    files = os.listdir('../datasets/gain/high_temp/')
+    files = sorted(os.listdir('../datasets/gain/high_temp/'))
     for index, value in enumerate(files):
-        image = get_data('../datasets/gain/high_temp/' + files[index], x)
+        image = np.memmap('../datasets/gain/high_temp/' + value, dtype='uint16', mode='r').reshape(x)
+        image = image[:, 1:-3]
         avgimg_high = image + avgimg_high
+        avgimg_high = avgimg_high.astype('uint32')
 
-    avgimg_high = avgimg_high / 60.0
+    avgimg_high = avgimg_high / 60
     print(avgimg_high.shape)
     return avgimg_high
 
@@ -55,3 +57,6 @@ def main(height, width, g_low, g_high, columns):
     avg_low = lowtemp_avg(columns)
     avg_high = hightemp_avg(columns)
     compute_gain(avg_low, avg_high, height, width, g_low, g_high)
+
+if __name__ == '__main__':
+    main(240,320,5,60,[240,324])

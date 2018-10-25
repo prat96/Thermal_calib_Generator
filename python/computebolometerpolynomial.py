@@ -2,10 +2,9 @@ import os
 import numpy as np
 
 from computeoffset import compute_offsetdirectory
-from read_pgm_file import get_temperature_columns
 
 
-def get_bolometer_mats():
+def get_bolometer_mats(y):
     x = compute_offsetdirectory()
     print("Getting bolometer matrices\n")
     i = 0
@@ -17,9 +16,10 @@ def get_bolometer_mats():
             print('directory number = ', x[k])
             while i < 60:
                 offsetfile = e[2][i]
-                image = np.array(get_temperature_columns(x[k] + offsetfile), dtype=np.float)
-                # np.memmap(filename, dtype='uint16', mode='r').reshape(480, 648)
+                image = np.memmap(x[k] + offsetfile, dtype='uint16', mode='r').reshape(y)
+                image = image[:, -3:]
                 avgimg_bolo = image + avgimg_bolo
+                avgimg_bolo = avgimg_bolo.astype('uint32')
                 i = i + 1
         averaged_bolo = avgimg_bolo / 60
         avg_bolo_Mats.append(averaged_bolo)
@@ -34,11 +34,10 @@ def compute_bolo_coefficients(x, t_low, t_high, t_step):
     filename = ('./results/bolo_coefficients')
     y = np.arange(t_low, t_high, t_step)
     bolo_coefficients = np.polyfit(x, y, 1)
-    print('\nBolometer coefficients =', bolo_coefficients)
+    print('\nBolometer coefficients =', bolo_coefficients, "\n")
     np.savetxt(filename, bolo_coefficients, fmt="%2.7f")
 
 
-def main(t_low, t_high, t_step):
-    mean_bolos = get_bolometer_mats()
+def main(t_low, t_high, t_step, columns):
+    mean_bolos = get_bolometer_mats(columns)
     compute_bolo_coefficients(mean_bolos, t_low, t_high, t_step)
-
