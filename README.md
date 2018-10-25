@@ -11,8 +11,7 @@
 
 Create /datasets folder with following structure;
 ```
-.
-├── ...
+Generator
 ├── datasets
 |   ├──gain
 |       ├──low_temp
