@@ -2,14 +2,21 @@ import os
 import numpy as np
 
 
-def lowtemp_avg(x):
+def image_data(sensor, image):
+    if sensor == "Atto":
+        return image[:, 1:-3]
+    if sensor == "VGA":
+        return image[:, 4:-4]
+
+
+def lowtemp_avg(x, sensor):
     avgimg_low = 0
     files = sorted(os.listdir('../datasets/gain/low_temp/'))
 
     for index, value in enumerate(files):
         # image = get_data('../datasets/gain/pgm/' + files[index], x)
         image = np.memmap('../datasets/gain/low_temp/' + value, dtype='uint16', mode='r').reshape(x)
-        image = image[:, 1:-3]
+        image = image_data(sensor, image)
         avgimg_low = image + avgimg_low
         avgimg_low = avgimg_low.astype('uint32')
 
@@ -17,13 +24,13 @@ def lowtemp_avg(x):
     return avgimg_low
 
 
-def hightemp_avg(x):
+def hightemp_avg(x, sensor):
     avgimg_high = 0
 
     files = sorted(os.listdir('../datasets/gain/high_temp/'))
     for index, value in enumerate(files):
         image = np.memmap('../datasets/gain/high_temp/' + value, dtype='uint16', mode='r').reshape(x)
-        image = image[:, 1:-3]
+        image = image_data(sensor, image)
         avgimg_high = image + avgimg_high
         avgimg_high = avgimg_high.astype('uint32')
 
@@ -53,10 +60,7 @@ def compute_gain(avgimg_low, avgimg_high, h, w, g_low, g_high):
     return gain_mat
 
 
-def main(height, width, g_low, g_high, columns):
-    avg_low = lowtemp_avg(columns)
-    avg_high = hightemp_avg(columns)
+def main(height, width, g_low, g_high, columns, sensor):
+    avg_low = lowtemp_avg(columns, sensor)
+    avg_high = hightemp_avg(columns, sensor)
     compute_gain(avg_low, avg_high, height, width, g_low, g_high)
-
-if __name__ == '__main__':
-    main(240,320,5,60,[240,324])

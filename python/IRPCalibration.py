@@ -13,8 +13,8 @@ def user_params():
     questions = [
         inquirer.Text('DEVICE_ID', message="Enter Device ID"),
         inquirer.List('RESOLUTION', message="Enter resolution", choices=['VGA(Gen2)', 'QVGA(Atto)']),
-        inquirer.Text('PREFIX', message="Enter bolometer prefix"),
-        inquirer.Text('SUFFIX', message="Enter bolometer suffix"),
+        # inquirer.Text('PREFIX', message="Enter bolometer prefix"),
+        # inquirer.Text('SUFFIX', message="Enter bolometer suffix"),
         inquirer.Text('GAIN_LOW', message="Enter low temp value of Gain matrix"),
         inquirer.Text('GAIN_HIGH', message="Enter high temp value of Gain matrix"),
         inquirer.Text('OFFSET_FIRST', message="Enter temp value of first offset reading"),
@@ -30,14 +30,15 @@ def user_params():
     if sensor == 'VGA(Gen2)':
         height = 480
         width = 640
-        columns_to_read=[480,648]
+        columns_to_read = [480, 648]
+        sensor = "VGA"
     else:
         height = 240
         width = 320
-        columns_to_read=[240,324]
-
-    prefix = answers['PREFIX']
-    suffix = answers['SUFFIX']
+        columns_to_read = [240, 324]
+        sensor = "Atto"
+    # prefix = answers['PREFIX']
+    # suffix = answers['SUFFIX']
     g_low = answers['GAIN_LOW']
     g_high = answers['GAIN_HIGH']
     t_low = int(answers['OFFSET_FIRST'])
@@ -48,7 +49,7 @@ def user_params():
     if input("\n" "Please check entered parameters. Are you sure you want to continue? (y/n)") != "y":
         exit()
 
-    return height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read
+    return height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read, sensor
 
 
 def print_knight():
@@ -59,8 +60,8 @@ def print_knight():
 
 
 if __name__ == '__main__':
-    height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read = user_params()
-    gain.main(height, width, g_low, g_high, columns_to_read)
-    computeoffset.main(g_low, g_high, t_low, t_high, t_step, columns_to_read)
-    computebolometerpolynomial.main(t_low, t_high, t_step, columns_to_read)
+    height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read, sensor = user_params()
+    gain.main(height, width, g_low, g_high, columns_to_read, sensor)
+    computeoffset.main(g_low, g_high, t_low, t_high, t_step, columns_to_read, sensor)
+    computebolometerpolynomial.main(t_low, t_high, t_step, columns_to_read, sensor)
     computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)

@@ -2,6 +2,13 @@ import os
 import numpy as np
 
 
+def image_data(sensor, image):
+    if sensor == "Atto":
+        return image[:, 1:-3]
+    if sensor == "VGA":
+        return image[:, 4:-4]
+
+
 def compute_offsetdirectory():
     directory = '../datasets/offset/'
     offsetdirectories = []
@@ -14,7 +21,7 @@ def compute_offsetdirectory():
     return offsetdirectories
 
 
-def compute_avg_offsetmats(x, y):
+def compute_avg_offsetmats(x, y, sensor):
     i = 0
     avgimg_offset = 0
     avg_offset_Mats = []
@@ -24,7 +31,7 @@ def compute_avg_offsetmats(x, y):
             while i < 60:
                 offsetfile = e[2][i]
                 image = np.memmap(x[k] + offsetfile, dtype='uint16', mode='r').reshape(y)
-                image = image[:, 1:-3]
+                image = image_data(sensor, image)
                 avgimg_offset = image + avgimg_offset
                 avgimg_offset = avgimg_offset.astype('uint32')
                 i = i + 1
@@ -59,9 +66,9 @@ def save_offsetmats(x, t_low, t_high, t_step):
     print('Saved Offset_Mats\n')
 
 
-def main(g_low, g_high, t_low, t_high, t_step, columns):
+def main(g_low, g_high, t_low, t_high, t_step, columns, sensor):
     print("Computing offset Mats\n")
     offset_directories = compute_offsetdirectory()
-    avg_offsetmats = compute_avg_offsetmats(offset_directories, columns)
+    avg_offsetmats = compute_avg_offsetmats(offset_directories, columns, sensor)
     offset_Mats = compute_offsetmats(avg_offsetmats, g_low, g_high)
     save_offsetmats(offset_Mats, t_low, t_high, t_step)

@@ -18,7 +18,7 @@ def get_offset_Mats(h, w, t_low, t_high, t_step):
     return offset_array, y
 
 
-def compute_offset_polynomial(offset_array, y, h, w, t_low, t_high, t_step ):
+def compute_offset_polynomial(offset_array, y, h, w, t_low, t_high, t_step):
     offset_polynomial = np.zeros((3, h, w))
     print('Computing offset polynomial matrices...')
     for i in range(0, h, 1):
@@ -37,6 +37,8 @@ def compute_offset_polynomial(offset_array, y, h, w, t_low, t_high, t_step ):
     np.savetxt("./results/c2_mat", offset_polynomial[1], fmt="%2.6f")
     np.savetxt("./results/c3_mat", offset_polynomial[2], fmt="%2.6f")
     print('\nDone.')
+
+    return 0
 
 
 def main(height, width, t_low, t_high, t_step):

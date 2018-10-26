@@ -212,3 +212,5 @@ python/offset_check/
 python/mat_conversion/
 python/strips/
 python/bpcr/
+
+.idea/
