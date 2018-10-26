@@ -3,8 +3,9 @@ import numpy as np
 import json
 from collections import OrderedDict
 
+
 def readandconvert_mats():
-    gain_mat = np.genfromtxt('./results/Gain_mat_10_50')
+    gain_mat = np.genfromtxt('./results/Gain_mat_5_60')
     gain_mat = np.asarray(gain_mat).reshape(-1)
     np.savetxt('./final_results/gainmat.mat', [gain_mat], fmt="%2.6f", newline=" ", delimiter=",")
 
@@ -20,20 +21,23 @@ def readandconvert_mats():
     c3_mat = np.asarray(c3_mat).reshape(-1)
     np.savetxt('./final_results/c3.mat', [c3_mat], fmt="%2.6f", newline=" ", delimiter=",")
 
-def update_json():
-    print("supj")
+    bolos = np.genfromtxt('./results/bolo_coefficients')
+
+    return bolos
+
+def update_json(bolos):
     with open("./final_results/calib_param.json", "r") as read_file:
         data = json.load(read_file, object_pairs_hook=OrderedDict)
     print(data)
     # print(data['BiasWindows'][1]['c1'])
 
-
-
-
+    data['BiasWindows'][1]['c1'] = bolos[0]
+    data['BiasWindows'][1]['c2'] = bolos[1]
 
     with open("./final_results/convertedjson.json", "w") as write_file:
         json.dump(data, write_file)
 
+
 if __name__ == '__main__':
-    # readandconvert_mats()
-    update_json()
+    bolos = readandconvert_mats()
+    update_json(bolos)
