@@ -53,7 +53,8 @@ def compute_offset_polynomial_vectorized(offset_array, y, h, w):
     np.savetxt("./results/c2_mat", [offset_polynomial[1]], fmt="%2.6f", newline=" ", delimiter=",")
     np.savetxt("./results/c3_mat", [offset_polynomial[2]], fmt="%2.6f", newline=" ", delimiter=",")
     print("\nDone.")
-    compute_cubic_interpolation(offset_array, y, height, width)
+    compute_cubic_interpolation(offset_array, y, h, w)
+
 
 
 def compute_cubic_interpolation(offset_array, y, h, w):
