@@ -53,6 +53,26 @@ def compute_offset_polynomial_vectorized(offset_array, y, h, w):
     np.savetxt("./results/c2_mat", [offset_polynomial[1]], fmt="%2.6f", newline=" ", delimiter=",")
     np.savetxt("./results/c3_mat", [offset_polynomial[2]], fmt="%2.6f", newline=" ", delimiter=",")
     print("\nDone.")
+    compute_cubic_interpolation(offset_array, y, height, width)
+
+
+def compute_cubic_interpolation(offset_array, y, h, w):
+    if input("\n" "Do you want to compute cubic interpolation matrices? (y/n)") != "y":
+        exit()
+
+    offset_mat = np.empty((len(offset_array), (h * w)))
+    print("Computing cubic polynomial matrices...")
+    for i in range(len(offset_array)):
+        flattened_mat = offset_array[i].flatten()
+        offset_mat[i] = flattened_mat
+    offset_polynomial = np.polyfit(y, offset_mat, 3)
+
+    np.savetxt("./results/cubic_c1_mat", [offset_polynomial[0]], fmt="%2.6f", newline=" ", delimiter=",")
+    np.savetxt("./results/cubic_c2_mat", [offset_polynomial[1]], fmt="%2.6f", newline=" ", delimiter=",")
+    np.savetxt("./results/cubic_c3_mat", [offset_polynomial[2]], fmt="%2.6f", newline=" ", delimiter=",")
+    np.savetxt("./results/cubic_c4_mat", [offset_polynomial[3]], fmt="%2.6f", newline=" ", delimiter=",")
+
+    print("\nDone.")
 
 
 def main(height, width, t_low, t_high, t_step):
