@@ -57,5 +57,5 @@ def compute_offset_polynomial_vectorized(offset_array, y, h, w):
 
 def main(height, width, t_low, t_high, t_step):
     offset_array, y = get_offset_Mats(height, width, t_low, t_high, t_step)
-    compute_offset_polynomial(offset_array, y, height, width, t_low, t_high, t_step)
+    # compute_offset_polynomial(offset_array, y, height, width, t_low, t_high, t_step)
     compute_offset_polynomial_vectorized(offset_array, y, height, width)
