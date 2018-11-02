@@ -47,8 +47,8 @@ def compute_offset_polynomial_vectorized(offset_array, y, h, w):
     for i in range(len(offset_array)):
         flattened_mat = offset_array[i].flatten()
         offset_mat[i] = flattened_mat
-
     offset_polynomial = np.polyfit(y, offset_mat, 2)
+
     np.savetxt("./results/c1_mat", [offset_polynomial[0]], fmt="%2.6f", newline=" ", delimiter=",")
     np.savetxt("./results/c2_mat", [offset_polynomial[1]], fmt="%2.6f", newline=" ", delimiter=",")
     np.savetxt("./results/c3_mat", [offset_polynomial[2]], fmt="%2.6f", newline=" ", delimiter=",")
