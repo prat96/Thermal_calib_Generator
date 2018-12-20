@@ -1,6 +1,6 @@
 import os
-import numpy as np
 
+import numpy as np
 from computeoffset import compute_offsetdirectory
 
 
@@ -10,6 +10,8 @@ def temp_columns(sensor, image):
     if sensor == "VGA":
         image = (image[:, :3] + image[:, -3:]) / 2
         return image
+    if sensor == "Pico":
+        return image[:, -4:]
 
 
 def get_bolometer_mats(y, sensor):

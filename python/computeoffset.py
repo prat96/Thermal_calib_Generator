@@ -7,6 +7,8 @@ def image_data(sensor, image):
         return image[:, 1:-3]
     if sensor == "VGA":
         return image[:, 4:-4]
+    if sensor == "Pico":
+        return image[:, :-4]
 
 
 def compute_offsetdirectory():

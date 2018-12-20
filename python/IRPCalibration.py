@@ -1,9 +1,8 @@
 import gain
-import computeoffset
-import computebolometerpolynomial
-import computeoffsetpolynomial
 import inquirer
-
+import computeoffset
+import computeoffsetpolynomial
+import computebolometerpolynomial
 
 def user_params():
     print('Welcome to Merlin.')
@@ -12,7 +11,7 @@ def user_params():
 
     questions = [
         inquirer.Text('DEVICE_ID', message="Enter Device ID"),
-        inquirer.List('RESOLUTION', message="Enter resolution", choices=['VGA(Gen2)', 'QVGA(Atto)']),
+        inquirer.List('RESOLUTION', message="Enter resolution", choices=['VGA(Gen2)', 'QVGA(Atto)', 'PICO384']),
         # inquirer.Text('PREFIX', message="Enter bolometer prefix"),
         # inquirer.Text('SUFFIX', message="Enter bolometer suffix"),
         inquirer.Text('GAIN_LOW', message="Enter low temp value of Gain matrix"),
@@ -32,11 +31,17 @@ def user_params():
         width = 640
         columns_to_read = [480, 648]
         sensor = "VGA"
-    else:
+    elif sensor == 'QVGA(Atto)':
         height = 240
         width = 320
         columns_to_read = [240, 324]
         sensor = "Atto"
+    else:
+        height = 288
+        width = 388
+        columns_to_read = [288, 388]
+        sensor = "Pico"
+
     # prefix = answers['PREFIX']
     # suffix = answers['SUFFIX']
     g_low = answers['GAIN_LOW']
@@ -61,7 +66,7 @@ def print_knight():
 
 if __name__ == '__main__':
     height, width, g_low, g_high, t_low, t_high, t_step, columns_to_read, sensor = user_params()
-    gain.main(height, width, g_low, g_high, columns_to_read, sensor)
+    # gain.main(height, width, g_low, g_high, columns_to_read, sensor)
     computeoffset.main(g_low, g_high, t_low, t_high, t_step, columns_to_read, sensor)
     computebolometerpolynomial.main(t_low, t_high, t_step, columns_to_read, sensor)
     computeoffsetpolynomial.main(height, width, t_low, t_high, t_step)

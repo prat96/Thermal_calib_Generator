@@ -1,11 +1,12 @@
-import os
-import numpy as np
 import json
+import os
 from collections import OrderedDict
+
+import numpy as np
 
 
 def readandconvert_mats():
-    gain_mat = np.genfromtxt('./results/Gain_mat_5_60')
+    gain_mat = np.genfromtxt('./results/Gain_mat_10_60')
     gain_mat = np.asarray(gain_mat).reshape(-1)
     np.savetxt('./final_results/gainmat.mat', [gain_mat], fmt="%2.6f", newline=" ", delimiter=",")
 
@@ -21,9 +22,15 @@ def readandconvert_mats():
     # c3_mat = np.asarray(c3_mat).reshape(-1)
     # np.savetxt('./final_results/c3.mat', [c3_mat], fmt="%2.6f", newline=" ", delimiter=",")
 
-    bolos = np.genfromtxt('./results/bolo_coefficients')
+    # bolos = np.genfromtxt('./results/bolo_coefficients')
 
-    return bolos
+    return 0
+
+
+def create_git_repo():
+    path = os.getcwd()
+    print(path)
+
 
 def update_json(bolos):
     with open("./final_results/calib_param.json", "r") as read_file:
@@ -39,5 +46,6 @@ def update_json(bolos):
 
 
 if __name__ == '__main__':
-    bolos = readandconvert_mats()
-    update_json(bolos)
+    readandconvert_mats()
+    # update_json(bolos)
+    # create_git_repo()
