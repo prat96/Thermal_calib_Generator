@@ -10,13 +10,15 @@ def temp_columns(sensor, image):
     if sensor == "VGA":
         image = (image[:, :3] + image[:, -3:]) / 2
         return image
-    if sensor == "Pico":
-        return image[:, -4:]
+    if sensor == "Pico-ulis":
+        return image[:, -3:]
+    if sensor == "Pico-222":
+        return  image[:, -4:]
 
 
 def get_bolometer_mats(y, sensor):
     x = compute_offsetdirectory()
-    print("Getting bolometer matrices\n")
+    print("Reading bolometer matrices\n")
     i = 0
     avgimg_bolo = 0
     avg_bolo_Mats = []

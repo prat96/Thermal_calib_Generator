@@ -111,11 +111,8 @@ def compute_transposed_coeffecients(offset_array, y, h, w):
 
 
 def main(height, width, t_low, t_high, t_step):
+    width = width - 4
     offset_array, y = get_offset_Mats(height, width, t_low, t_high, t_step)
     # compute_offset_polynomial(offset_array, y, height, width, t_low, t_high, t_step)
     compute_offset_polynomial_vectorized(offset_array, y, height, width)
     # compute_transposed_coeffecients(offset_array, y, height, width)
-
-
-if __name__ == '__main__':
-    main(288, 384, 0, 41, 4)

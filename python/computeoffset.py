@@ -7,9 +7,25 @@ def image_data(sensor, image):
         return image[:, 1:-3]
     if sensor == "VGA":
         return image[:, 4:-4]
-    if sensor == "Pico":
-        return image[:, :-4]
+    if sensor == "Pico-ulis":
+        return image[:, 1:-3]
+    if sensor == "Pico-222":
+        return image[:, 4:]
 
+def bpcr(image):
+    y = [98, 273, 11, 262, 346, 69, 72, 19, 64, 77, 247, 17, 42, 17, 39, 7, 166, 12, 254, 255, 203, 162, 250, 100,
+         112,
+         203]
+    x = [2, 2, 3, 10, 10, 15, 15, 24, 29, 30, 30, 36, 51, 53, 56, 62, 66, 67, 83, 83, 103, 167, 183, 240, 284, 286]
+
+    index = 0
+    while (index < len(x)):
+        print("initial =", image[x[index], y[index]])
+        image[x[index], y[index]] = image[x[index] - 1, y[index]]
+        print("after =", image[x[index], y[index]])
+        index = index + 1
+
+    return image
 
 def compute_offsetdirectory():
     directory = '../datasets/offset/'
@@ -38,6 +54,7 @@ def compute_avg_offsetmats(x, y, sensor):
                 avgimg_offset = avgimg_offset.astype('uint32')
                 i = i + 1
         averaged_offset = avgimg_offset / 60
+        # averaged_offset = bpcr(averaged_offset)
         avg_offset_Mats.append(averaged_offset)
         i = 0
         avgimg_offset = 0
@@ -74,3 +91,6 @@ def main(g_low, g_high, t_low, t_high, t_step, columns, sensor):
     avg_offsetmats = compute_avg_offsetmats(offset_directories, columns, sensor)
     offset_Mats = compute_offsetmats(avg_offsetmats, g_low, g_high)
     save_offsetmats(offset_Mats, t_low, t_high, t_step)
+
+# if __name__ == '__main__':
+#     main(10,55,0,41,4,[288,388],"Pico")

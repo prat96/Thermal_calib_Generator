@@ -6,7 +6,7 @@ import numpy as np
 
 
 def readandconvert_mats():
-    gain_mat = np.genfromtxt('./results/Gain_mat_10_60')
+    gain_mat = np.genfromtxt('./results/Gain_mat_10_50')
     gain_mat = np.asarray(gain_mat).reshape(-1)
     np.savetxt('./final_results/gainmat.mat', [gain_mat], fmt="%2.6f", newline=" ", delimiter=",")
 
