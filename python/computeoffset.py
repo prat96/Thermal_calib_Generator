@@ -10,7 +10,7 @@ def image_data(sensor, image):
     if sensor == "Pico-ulis":
         return image[:, 1:-3]
     if sensor == "Pico-222":
-        return image[:, 4:]
+        return image[:, :-4]
 
 def bpcr(image):
     y = [98, 273, 11, 262, 346, 69, 72, 19, 64, 77, 247, 17, 42, 17, 39, 7, 166, 12, 254, 255, 203, 162, 250, 100,
